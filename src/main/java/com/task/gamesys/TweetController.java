@@ -1,6 +1,5 @@
 package com.task.gamesys;
 
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -14,15 +13,13 @@ public class TweetController {
         this.tweetService = tweetService;
     }
 
-/*
-    @Scheduled(fixedRate = 5000)
-    public void greeting() {
-        System.out.println("Hello!!!");
-    }
-*/
+    /*
+        @Scheduled(fixedRate = 5000)
+        }*/
 
     @GetMapping("/get")
-    public List<Tweet> getTweets() {
-        return tweetService.findTweetsFromUrl();
+    public String getTweets() {
+        return tweetService.getJsonFromApi();
     }
+
 }
