@@ -14,12 +14,11 @@ public class TweetController {
     }
 
     /*
-        @Scheduled(fixedRate = 5000)
         }*/
 
     @GetMapping("/get")
     public String getTweets() {
-        return tweetService.getJsonFromApi();
+        return tweetService.getDataFromJson();
     }
 
 }

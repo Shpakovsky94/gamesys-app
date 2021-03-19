@@ -1,24 +1,22 @@
 package com.task.gamesys;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 public interface TweetService {
-    List<Tweet> findTweetsFromUrl();
 
     String getJsonFromApi();
 
-    Tweet getTweetFromJson();
+    String getDataFromJson();
+
 }
 
 
@@ -32,20 +30,6 @@ public interface TweetService {
         this.tweetDao = tweetDao;
     }
 
-    @Override
-    public List<Tweet> findTweetsFromUrl() {
-        final ObjectMapper objectMapper = new ObjectMapper();
-        List<Tweet>        tweetList    = null;
-        try {
-//            Tweet[] langs = objectMapper.readValue(getJsonFromApi(), Tweet[].class);
-            tweetList = objectMapper.readValue(getJsonFromApi(), new TypeReference<List<Tweet>>() {
-            });
-            return tweetList;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return tweetList;
-    }
 
     public String getJsonFromApi() {
         String resp = "";
@@ -55,10 +39,8 @@ public interface TweetService {
             headers.add("Authorization", "Bearer " + jwtToken);
             final String uri = "https://api.twitter.com/2/users/44196397/tweets?max_results=10&tweet.fields=created_at";
 
-            HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
-
-            RestTemplate restTemplate = new RestTemplate();
-
+            HttpEntity<String>     entity         = new HttpEntity<>("parameters", headers);
+            RestTemplate           restTemplate   = new RestTemplate();
             ResponseEntity<String> responseEntity = restTemplate.exchange(uri, HttpMethod.GET, entity, String.class);
 
             resp = responseEntity.getBody();
@@ -69,24 +51,20 @@ public interface TweetService {
         return resp;
     }
 
-    public Tweet getTweetFromJson() {
+    @Scheduled(fixedRate = 5000)
+    public String getDataFromJson() {
 
-        Tweet  tweet      = null;
+        String data       = null;
         String jsonResult = getJsonFromApi();
         try {
-            ObjectMapper mapper = new ObjectMapper();
-            SimpleModule module = new SimpleModule();
+            ObjectMapper mapper       = new ObjectMapper();
+            DataFromJson dataFromJson = mapper.readValue(jsonResult, DataFromJson.class);
 
-            module.addDeserializer(Tweet.class, new TweetListDeserialization());
-            mapper.registerModule(module);
-
-            tweet = mapper.readValue(jsonResult, Tweet.class);
-
+            data = dataFromJson.getData().get(0).toString();
         } catch (Exception j) {
             j.printStackTrace();
         }
-        return tweet;
+        return data;
     }
-
 }
 
