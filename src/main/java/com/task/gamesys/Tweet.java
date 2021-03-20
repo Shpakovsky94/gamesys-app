@@ -6,11 +6,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Tweet {
 
-    @JsonProperty("created_at")
-    private String createdAt;
-
     @JsonProperty("id")
     private Long tweetId;
+
+    @JsonProperty("created_at")
+    private String createdAt;
 
     @JsonProperty("text")
     private String text;
@@ -18,9 +18,9 @@ public class Tweet {
     public Tweet() {
     }
 
-    public Tweet(String createdAt, Long tweetId, String text) {
-        this.createdAt = createdAt;
+    public Tweet(Long tweetId, String createdAt, String text) {
         this.tweetId = tweetId;
+        this.createdAt = createdAt;
         this.text = text;
     }
 

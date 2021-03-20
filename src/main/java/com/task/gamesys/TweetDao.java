@@ -17,8 +17,12 @@ public class TweetDao {
     jdbcTemplate = new JdbcTemplate(dataSource);
   }
 
-  public List<Tweet> getAll() {
+  public List<Tweet> getLast10() {
     return jdbcTemplate.query("SELECT * FROM ELONS_TWEETS LIMIT 0, 10", new TweetRowMapper());
+  }
+
+  public List<Tweet> getAll() {
+    return jdbcTemplate.query("SELECT * FROM ELONS_TWEETS", new TweetRowMapper());
   }
 
   public int save(final Tweet tweet) {
