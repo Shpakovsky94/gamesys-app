@@ -18,11 +18,7 @@ public class Tweet {
     public Tweet() {
     }
 
-    public Tweet(
-        String createdAt,
-        Long tweetId,
-        String text
-    ) {
+    public Tweet(String createdAt, Long tweetId, String text) {
         this.createdAt = createdAt;
         this.tweetId = tweetId;
         this.text = text;
@@ -52,11 +48,17 @@ public class Tweet {
         this.text = text;
     }
 
-    @Override public String toString() {
-        return "Tweet{" +
-            "createdAt='" + createdAt + '\'' +
-            ", tweetId=" + tweetId +
-            ", text='" + text + '\'' +
-            '}';
+    @Override
+    public String toString() {
+        return "Tweet{"
+                + "createdAt='"
+                + createdAt
+                + '\''
+                + ", tweetId="
+                + tweetId
+                + ", text='"
+                + text
+                + '\''
+                + '}';
     }
 }
