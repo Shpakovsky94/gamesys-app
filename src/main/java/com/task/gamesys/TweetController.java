@@ -16,12 +16,8 @@ public class TweetController {
   }
 
   @GetMapping("/get")
-  public List<Tweet> getTweets() {
-    return tweetService.getAll();
+  public List<Tweet> getLast10() {
+    return tweetService.getLast10();
   }
 
-  @GetMapping("/save")
-  public void saveTweets() {
-    tweetService.saveNewTweetsToDb();
-  }
 }

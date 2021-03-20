@@ -2,7 +2,11 @@ package com.task.gamesys;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.http.*;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -10,27 +14,24 @@ import java.util.List;
 
 public interface TweetService {
 
-  List<Tweet> getAll();
-
   /**
    * Returns alarm log by alarm id
    *
    * <p>
    *
-   * @param tweet - Alarm log id
    * @return Found alarm log
    */
-  int save(final Tweet tweet);
-
-  void saveNewTweetsToDb();
+  List<Tweet> getLast10();
 }
 
+@EnableScheduling
 @Service
 class TweetServiceImpl implements TweetService {
 
   private final String jwtToken =
           "AAAAAAAAAAAAAAAAAAAAAEfqNgEAAAAAXG6X4f4KMyoYrkgvR01AoI%2Fg7AY%3DPYJP0NhYYMfwyBkLSPVZS8YmAeooKVOUzIQCeaL9i69xfvEtl4";
   private final TweetDao tweetDao;
+  private boolean isSaveTweetsOnRunFinished = false;
 
   @Autowired
   public TweetServiceImpl(TweetDao tweetDao) {
@@ -59,7 +60,6 @@ class TweetServiceImpl implements TweetService {
     return resp;
   }
 
-  //    @Scheduled(fixedRate = 5000)
   private List<Tweet> getDataFromJson() {
 
     List<Tweet> data = null;
@@ -75,20 +75,45 @@ class TweetServiceImpl implements TweetService {
     return data;
   }
 
-  public void saveNewTweetsToDb() {
+  @EventListener(ApplicationReadyEvent.class)
+  public void saveTweetsOnRun() {
     List<Tweet> tweetList = getDataFromJson();
     for (Tweet t : tweetList) {
       save(t);
     }
+    isSaveTweetsOnRunFinished = true;
+  }
+
+  @Scheduled(fixedRate = 5000)
+  private void saveNewTweetsToDb() {
+    try {
+      if (isSaveTweetsOnRunFinished) {
+        List<Tweet> tweetListFromDb = getAll();
+        List<Tweet> tweetList = getDataFromJson();
+
+        if (!tweetListFromDb.isEmpty()) {
+          for (Tweet t : tweetList) {
+            if (tweetListFromDb.contains(t)) {
+              save(t);
+            }
+          }
+        }
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 
   @Override
-  public List<Tweet> getAll() {
-    return tweetDao.getAll();
+  public List<Tweet> getLast10() {
+    return tweetDao.getLast10();
   }
 
-  @Override
-  public int save(Tweet tweet) {
+  private int save(Tweet tweet) {
     return tweetDao.save(tweet);
+  }
+
+  private List<Tweet> getAll() {
+    return tweetDao.getAll();
   }
 }
