@@ -54,7 +54,7 @@ class TweetServiceImpl implements TweetService {
   @EventListener(ApplicationReadyEvent.class)
   public void saveTweetsOnRun() {
     try {
-      log.info("method saveTweetsOnRun is invoked");
+      log.info("invoke saveTweetsOnRun()");
       List<Tweet> tweetList = getDataFromJson();
       for (Tweet t : tweetList) {
         save(t);
@@ -70,7 +70,7 @@ class TweetServiceImpl implements TweetService {
   private void saveNewTweetsToDb() {
     try {
       if (isSaveTweetsOnRunFinished) {
-        log.info("method saveNewTweetsToDb is invoked");
+        log.info("invoke saveNewTweetsToDb()");
         List<Tweet> tweetListFromDb = getAll();
         List<Tweet> tweetList = getDataFromJson();
 
