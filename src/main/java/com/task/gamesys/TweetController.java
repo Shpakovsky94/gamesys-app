@@ -17,7 +17,7 @@ public class TweetController {
 
   @GetMapping("/get")
   public List<Tweet> getLast10() {
-    return tweetService.getLast10();
+    return tweetService.getLast10Replies();
   }
 
 }

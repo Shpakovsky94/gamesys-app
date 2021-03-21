@@ -18,11 +18,11 @@ public class TweetDao {
   }
 
   public List<Tweet> getLast10() {
-    return jdbcTemplate.query("SELECT * FROM ELONS_TWEETS LIMIT 0, 10", new TweetRowMapper());
+    return jdbcTemplate.query("SELECT * FROM ELONS_TWEETS  ORDER BY created_at desc LIMIT 0, 10", new TweetRowMapper());
   }
 
   public List<Tweet> getAll() {
-    return jdbcTemplate.query("SELECT * FROM ELONS_TWEETS", new TweetRowMapper());
+    return jdbcTemplate.query("SELECT * FROM ELONS_TWEETS ORDER BY created_at desc", new TweetRowMapper());
   }
 
   public int save(final Tweet tweet) {
