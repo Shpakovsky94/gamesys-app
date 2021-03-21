@@ -58,7 +58,7 @@ class TweetServiceImpl implements TweetService {
       resp = responseEntity.getBody();
       return resp;
     } catch (Exception e) {
-      e.printStackTrace();
+      log.error(e.getMessage(), e);
     }
     return resp;
   }
@@ -70,7 +70,7 @@ class TweetServiceImpl implements TweetService {
 
     List<Tweet> data = dataFromJson.getData();
 
-    if (data.isEmpty()) {
+    if (!data.isEmpty()) {
       return data;
     } else {
       throw new Exception();
@@ -80,6 +80,7 @@ class TweetServiceImpl implements TweetService {
   @EventListener(ApplicationReadyEvent.class)
   public void saveTweetsOnRun() {
     try {
+      log.info("method saveTweetsOnRun starts");
       List<Tweet> tweetList = getDataFromJson();
       for (Tweet t : tweetList) {
         save(t);
@@ -87,15 +88,15 @@ class TweetServiceImpl implements TweetService {
       }
       isSaveTweetsOnRunFinished = true;
     } catch (Exception e) {
-      e.printStackTrace();
+      log.error(e.getMessage(), e);
     }
   }
 
   @Scheduled(fixedRate = 5000)
   private void saveNewTweetsToDb() {
     try {
-      log.info("method saveNewTweetsToDb starts");
       if (isSaveTweetsOnRunFinished) {
+        log.info("method saveNewTweetsToDb starts");
         List<Tweet> tweetListFromDb = getAll();
         List<Tweet> tweetList = getDataFromJson();
 
