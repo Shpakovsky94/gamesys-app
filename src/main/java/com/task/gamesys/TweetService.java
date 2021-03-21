@@ -1,6 +1,8 @@
 package com.task.gamesys;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
@@ -28,6 +30,7 @@ public interface TweetService {
 @Service
 class TweetServiceImpl implements TweetService {
 
+  private static final Logger log = LoggerFactory.getLogger(TweetServiceImpl.class);
   private final String jwtToken =
           "AAAAAAAAAAAAAAAAAAAAAEfqNgEAAAAAXG6X4f4KMyoYrkgvR01AoI%2Fg7AY%3DPYJP0NhYYMfwyBkLSPVZS8YmAeooKVOUzIQCeaL9i69xfvEtl4";
   private final TweetDao tweetDao;
@@ -60,33 +63,38 @@ class TweetServiceImpl implements TweetService {
     return resp;
   }
 
-  private List<Tweet> getDataFromJson() {
-
-    List<Tweet> data = null;
+  private List<Tweet> getDataFromJson() throws Exception {
     String jsonResult = getJsonFromApi();
-    try {
-      ObjectMapper mapper = new ObjectMapper();
-      DataFromJson dataFromJson = mapper.readValue(jsonResult, DataFromJson.class);
+    ObjectMapper mapper = new ObjectMapper();
+    DataFromJson dataFromJson = mapper.readValue(jsonResult, DataFromJson.class);
 
-      data = dataFromJson.getData();
-    } catch (Exception j) {
-      j.printStackTrace();
+    List<Tweet> data = dataFromJson.getData();
+
+    if (data.isEmpty()) {
+      return data;
+    } else {
+      throw new Exception();
     }
-    return data;
   }
 
   @EventListener(ApplicationReadyEvent.class)
   public void saveTweetsOnRun() {
-    List<Tweet> tweetList = getDataFromJson();
-    for (Tweet t : tweetList) {
-      save(t);
+    try {
+      List<Tweet> tweetList = getDataFromJson();
+      for (Tweet t : tweetList) {
+        save(t);
+        log.info("Saved tweet id:{}", t.getTweetId());
+      }
+      isSaveTweetsOnRunFinished = true;
+    } catch (Exception e) {
+      e.printStackTrace();
     }
-    isSaveTweetsOnRunFinished = true;
   }
 
   @Scheduled(fixedRate = 5000)
   private void saveNewTweetsToDb() {
     try {
+      log.info("method saveNewTweetsToDb starts");
       if (isSaveTweetsOnRunFinished) {
         List<Tweet> tweetListFromDb = getAll();
         List<Tweet> tweetList = getDataFromJson();
@@ -95,12 +103,13 @@ class TweetServiceImpl implements TweetService {
           for (Tweet t : tweetList) {
             if (tweetListFromDb.contains(t)) {
               save(t);
+              log.info("Saved tweet id:{}", t.getTweetId());
             }
           }
         }
       }
     } catch (Exception e) {
-      e.printStackTrace();
+      log.error(e.getMessage(), e);
     }
   }
 
