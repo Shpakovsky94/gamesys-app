@@ -18,5 +18,3 @@ Run these commands from the app folder to start the app:
 2) docker build -t gamesys-spring-boot .
 
 3) docker-compose up
-
-Put it in github. Should be runnable from the IDE. 
