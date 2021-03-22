@@ -6,7 +6,9 @@ services:
             - gamesys-mysql
         environment:
             - MYSQL_ROOT_PASSWORD=rootroot
-            - MYSQL_DATABASE=tweet
+            - MYSQL_DATABASE=tweets
+            - MYSQL_USER=myapp-root
+            - MYSQL_PASSWORD=rootroot
 
     gamesys-spring-boot:
         image: gamesys-spring-boot
@@ -14,10 +16,16 @@ services:
             - "8070:8070"
         networks:
             - gamesys-mysql
+        environment:
+            - DATABASE_HOST=gamesys-mysql
+            - DATABASE_USER=root
+            - DATABASE_PASSWORD=rootroot
+            - DATABASE_NAME=tweets
+            - SPRING_DATASOURCE_URL=jdbc:mysql://mysqldb/tweets?createDatabaseIfNotExist=true&useSSL=false&useUnicode=yes&characterEncoding=UTF-8&allowPublicKeyRetrieval=true&serverTimezone=UTC
+
         depends_on:
             - mysqldb
-
-
-
 networks:
     gamesys-mysql:
+
+

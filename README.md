@@ -1,43 +1,22 @@
 # gamesys-app
+App will be searching for new Elon Musk Twitter replies every 2 sec and store them to the DB. To get
+latest 10 replies call:
 
-a. Read input data from any external http source (for you to choose, rss feed, twitter feed...)  every x seconds-minutes
+http://localhost:8070/get
+PS: in case of any problem please restart gamesys-spring-boot container
 
-b. Process data with any rules (modify input value, add additional values)
+Stack:
+Spring-boot + JDBC + MySQL
 
-c. Put it in any in-memory database (H2 for example)
+MySQL DB user:
+root/rootroot
 
-d. By the request in browser show the last 10 entries (no UI, just json) by reading from the in-memory db
+Run these commands from the app folder to start the app:
 
-e. Don’t use hibernate (JPA). Use plain SQL.
+1) mvnw clean install
 
-f. Spring Boot 2, Java
+2) docker build -t gamesys-spring-boot .
 
-g. No Spring integrations framework
-
-h.       (optional) Create a Docker image for the project, so we can run this as a Docker container
-
-Project structure:
-
-src/
-
-      main/ 
-
-          java/ 
-
-              --here you have classes for process and store data, and defined api to show the data 
-
-      test/ 
-
-          java/ 
-
-              --here you have test classes for reading data, invoke methods from the ‘main’ classes with data -> read from db -> validate results 
-
-Hints:
-
-1) Framework for tests: junit
-
-2) Please, do not spend time on complex processing logic.
-
-3) Run tests
+3) docker-compose up
 
 Put it in github. Should be runnable from the IDE. 
