@@ -22,7 +22,28 @@ public interface TweetService {
   /**
    * Returns last 10 replies from Elon Musk Twitter
    */
-  List<Tweet> getLast10Replies();
+  List<TweetDto> getLast10Replies();
+
+  /**
+   * Returns all replies
+   */
+  List<TweetDto> getAll();
+
+  /**
+   * Save new tweet from Elon Musk
+   */
+  int save(Tweet tweet);
+
+  /**
+   * Save all new tweest from Elon Musk
+   */
+  void saveAll(List<Tweet> tweetList);
+
+  /**
+   * Save all new tweest from Elon Musk
+   */
+  public Boolean isTweetPresentInDb(final Long tweetId);
+
 }
 
 @EnableScheduling

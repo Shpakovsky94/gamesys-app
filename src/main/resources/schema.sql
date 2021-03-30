@@ -5,7 +5,23 @@ use tweets;
 
 create table if not exists `tweets`.`ELONS_TWEETS`
 (
-    tweet_Id   bigint primary key not null ,
-    created_at varchar(100) null,
-    text       varchar(255) null
-);
+    PK_ROW_ID
+    bigint
+    primary
+    key
+    not
+    null
+    AUTO_INCREMENT,
+    tweet_Id
+    bigint
+    null,
+    created_at
+    varchar
+(
+    100
+) null,
+    text varchar
+(
+    1000
+) null
+    );

@@ -3,8 +3,9 @@ package com.task.gamesys;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@org.springframework.web.bind.annotation.RestController
+@RestController
 public class TweetController {
 
   private final TweetService tweetService;
@@ -15,7 +16,7 @@ public class TweetController {
   }
 
   @GetMapping("/get")
-  public List<Tweet> getLast10() {
+  public List<TweetDto> getLast10() {
     return tweetService.getLast10Replies();
   }
 

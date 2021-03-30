@@ -1,24 +1,18 @@
 package com.task.gamesys;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class Tweet {
+public class TweetDto {
 
-  @JsonProperty("id")
   private Long tweetId;
 
-  @JsonProperty("created_at")
   private String createdAt;
 
-  @JsonProperty("text")
   private String text;
 
-  public Tweet() {
+  public TweetDto() {
   }
 
-  public Tweet(Long tweetId, String createdAt, String text) {
+  public TweetDto(Long tweetId, String createdAt, String text) {
     this.tweetId = tweetId;
     this.createdAt = createdAt;
     this.text = text;
@@ -46,14 +40,5 @@ public class Tweet {
 
   public void setText(String text) {
     this.text = text;
-  }
-
-  @Override
-  public String toString() {
-    return "Tweet{" +
-        "tweetId=" + tweetId +
-        ", createdAt='" + createdAt + '\'' +
-        ", text='" + text + '\'' +
-        '}';
   }
 }
