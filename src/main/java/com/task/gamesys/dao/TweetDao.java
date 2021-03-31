@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface TweetDao {
 
-   List<TweetDto> getLast10();
+    List<TweetDto> getLast10();
 
    int saveUniqueFromList(final List<Tweet> tweetList);
 }

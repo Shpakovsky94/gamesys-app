@@ -16,7 +16,11 @@ public class Tweet {
   public Tweet() {
   }
 
-  public Tweet(Long tweetId, String createdAt, String text) {
+  public Tweet(
+      Long tweetId,
+      String createdAt,
+      String text
+  ) {
     this.tweetId = tweetId;
     this.createdAt = createdAt;
     this.text = text;

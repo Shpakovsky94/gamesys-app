@@ -6,14 +6,14 @@ import java.util.List;
 
 public interface TweetService {
 
-  /**
-   * Returns last 10 replies from Elon Musk Twitter
-   */
-  List<TweetDto> getLast10Replies();
+    /**
+     * Returns last 10 replies from Elon Musk Twitter
+     */
+    List<TweetDto> getLast10Replies();
 
-  /**
-   * Save all new unique tweest from Elon Musk
-   */
-  void saveUniqueFromList(List<Tweet> tweetList);
+    /**
+     * Save all new unique tweest from Elon Musk
+     */
+    void saveUniqueFromList(List<Tweet> tweetList);
 
 }

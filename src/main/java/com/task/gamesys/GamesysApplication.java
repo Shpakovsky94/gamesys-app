@@ -8,7 +8,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 public class GamesysApplication {
 
-  public static void main(String[] args) {
-    SpringApplication.run(GamesysApplication.class, args);
-  }
+    public static void main(String[] args) {
+        SpringApplication.run(GamesysApplication.class, args);
+    }
 }

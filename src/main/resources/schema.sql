@@ -5,7 +5,6 @@ database tweets;
 use
 tweets;
 
-
 create table if not exists `tweets`.`ELONS_TWEETS`
 (
     PK_ROW_ID
@@ -18,6 +17,7 @@ create table if not exists `tweets`.`ELONS_TWEETS`
     tweet_Id
     bigint
     unique
+    not
     null,
     created_at
     varchar
@@ -27,5 +27,4 @@ create table if not exists `tweets`.`ELONS_TWEETS`
     text varchar
 (
     1000
-) null
-    );
+) null);
