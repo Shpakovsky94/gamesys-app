@@ -1,6 +1,9 @@
-drop database if exists tweets;
-create database tweets;
-use tweets;
+drop
+database if exists tweets;
+create
+database tweets;
+use
+tweets;
 
 
 create table if not exists `tweets`.`ELONS_TWEETS`
@@ -14,6 +17,7 @@ create table if not exists `tweets`.`ELONS_TWEETS`
     AUTO_INCREMENT,
     tweet_Id
     bigint
+    unique
     null,
     created_at
     varchar

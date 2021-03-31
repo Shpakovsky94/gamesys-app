@@ -1,5 +1,7 @@
-package com.task.gamesys;
+package com.task.gamesys.controller;
 
+import com.task.gamesys.dto.TweetDto;
+import com.task.gamesys.service.TweetService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

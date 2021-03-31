@@ -1,10 +1,7 @@
-package com.task.gamesys;
+package com.task.gamesys.dto;
 
 
 public class TweetDto {
-
-  private Long tweetId;
-
   private String createdAt;
 
   private String text;
@@ -12,19 +9,13 @@ public class TweetDto {
   public TweetDto() {
   }
 
-  public TweetDto(Long tweetId, String createdAt, String text) {
-    this.tweetId = tweetId;
-    this.createdAt = createdAt;
-    this.text = text;
-  }
-
-  public Long getTweetId() {
-    return tweetId;
-  }
-
-  public void setTweetId(Long tweetId) {
-    this.tweetId = tweetId;
-  }
+    public TweetDto(
+        String createdAt,
+        String text
+    ) {
+        this.createdAt = createdAt;
+        this.text = text;
+    }
 
   public String getCreatedAt() {
     return createdAt;
