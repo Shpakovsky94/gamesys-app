@@ -1,6 +1,6 @@
 # gamesys-app
-App will be searching for new Elon Musk Twitter replies every 5 sec and store them to the DB. To get
-latest 10 replies call:
+App will be searching for new Elon Musk Twitter replies every 5 sec and store them to the DB. 
+To getlatest 10 replies call:
 
 http://localhost:8070/get
 
